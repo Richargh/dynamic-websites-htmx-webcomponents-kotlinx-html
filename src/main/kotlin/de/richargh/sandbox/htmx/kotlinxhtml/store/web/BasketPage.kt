@@ -10,10 +10,10 @@ import kotlinx.html.*
 fun basketPage(ctx: PageContext, items: PagedCollection<BasketItem>) = generalPage(ctx) {
     h1 { +"Basket" }
 
-    basketTable(items)
+    basketTable(ctx, items)
 }
 
-fun FlowContent.basketTable(items: Collection<BasketItem>) = table {
+fun FlowContent.basketTable(ctx: PageContext, items: Collection<BasketItem>) = table {
     attributes["data-testid"] = "basket-table"
     thead {
         tr {
@@ -22,18 +22,28 @@ fun FlowContent.basketTable(items: Collection<BasketItem>) = table {
             th { }
         }
     }
-    basketTableBody(items)
+    basketTableBody(ctx, items)
 }
 
 private const val productsTableBodyId = "search-results"
 
-fun TABLE.basketTableBody(items: Collection<BasketItem>) = tbody {
+fun TABLE.basketTableBody(ctx: PageContext, items: Collection<BasketItem>) = tbody {
     id = productsTableBodyId
     items.forEach {
         tr {
             td { +it.product.name }
             td { +it.product.price.toString() }
-            td { a(href = Paths.Basket.remove(it.id)) { +"Remove" } }
+            td {
+                form {
+                    action = Paths.Basket.remove(it.id)
+                    method = FormMethod.post
+                    button(type = ButtonType.submit, classes = "secondary") {
+                        value = "RemoveFromBasket"
+                        +"Remove"
+                    }
+                    input(type = InputType.hidden, name = "_csrf") { value = ctx.csrfToken!!.rawValue }
+                }
+            }
         }
     }
 }

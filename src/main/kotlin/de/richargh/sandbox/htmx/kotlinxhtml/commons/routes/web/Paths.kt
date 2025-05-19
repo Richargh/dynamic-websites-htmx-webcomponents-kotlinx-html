@@ -33,6 +33,7 @@ object Paths {
         const val INDEX = "/basket"
         const val ADD = "$INDEX/{id}/add"
         fun add(id: ProductId) = "$INDEX/${id.rawValue}/add"
+        const val REMOVE = "$INDEX/{id}/remove"
         fun remove(id: BasketItemId) = "$INDEX/${id.rawValue}/remove"
     }
 }

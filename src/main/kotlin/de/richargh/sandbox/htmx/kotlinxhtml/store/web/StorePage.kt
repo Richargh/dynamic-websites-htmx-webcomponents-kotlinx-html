@@ -21,7 +21,7 @@ fun FlowContent.storeSearch() = input {
     name = "q"
     placeholder = "Begin Typing To Search the Store..."
 
-    attributes["hx-get"] = Paths.Products.SEARCH
+    attributes["hx-get"] = Paths.Store.SEARCH
     attributes["hx-trigger"] = "keyup changed delay:500ms, search"
     attributes["hx-target"] = "#$productsTableBodyId"
 }

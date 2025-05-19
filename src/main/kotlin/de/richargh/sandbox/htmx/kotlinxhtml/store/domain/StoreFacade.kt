@@ -23,4 +23,8 @@ class StoreFacade(
             ?: throw IllegalArgumentException("Item $productId does not exist or ist not in Stock")
         basket.add(userName, item.product)
     }
+
+    fun removeFromBasket(userName: UserName, basketItemId: BasketItemId){
+        basket.remove(userName, basketItemId)
+    }
 }
