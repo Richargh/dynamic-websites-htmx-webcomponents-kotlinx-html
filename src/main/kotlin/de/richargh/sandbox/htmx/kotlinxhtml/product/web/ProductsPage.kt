@@ -9,16 +9,17 @@ import kotlinx.html.*
 
 fun productsPage(ctx: PageContext, products: PagedCollection<Product>) = generalPage(ctx) {
     h1 { +"Products" }
-    a(href = Paths.Products.ADD) { +"Add Product" }
-    br { }
 
-    productsSearch()
+    div(classes = "grid") {
+        a(href = Paths.Products.ADD) { button { +"Add Product" } }
+        productsSearch()
+    }
     productsTable(products)
     productsPagination(products)
 }
 
 @HtmlTagMarker
-fun MAIN.productsSearch() = input {
+fun FlowContent.productsSearch() = input {
     type = InputType.search
     name = "q"
     placeholder = "Begin Typing To Search Products..."
