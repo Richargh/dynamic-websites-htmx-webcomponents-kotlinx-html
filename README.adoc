@@ -1,7 +1,5 @@
 = Dynamic Websites with Htmx + WebComponents + Kotlinx.Html
 
-
-
 == Features
 
 * Htmx
@@ -32,8 +30,8 @@ LiveReload is great for fast iteration. It'll restart spring and refresh your br
 To use it:
 
 . Make sure you have the link:https://github.com/livereload/livereload-extensions[LiveReload extension] installed in Firefox/Chrome
-. In one Terminal start Gradle Continuous Build `./gradlew build -continuous`
-. In another Terminal or via IntelliJ run your application via `./gradlew bootRun`
+. Remap Build Project to `⌘S` for convenience
+. Run your application via IntelliJ `./gradlew bootRun`
 . Open the site in your browser
 . If the LiveReload Extension symbol in your browser shows "connected", then your browser will refresh on changes
-
+. Press `⌘S` every time you make changes. It'll be faster than waiting for the dev tools to detect the changes.
