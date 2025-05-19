@@ -21,6 +21,12 @@ fun FlowContent.menu(ctx: PageContext) = nav {
         li {
             a(href = Paths.Products.INDEX) { +"Products" }
         }
+        li {
+            a(href = Paths.Store.INDEX) { +"Store" }
+        }
+        li {
+            a(href = Paths.Basket.INDEX) { +"Basket" }
+        }
         if (ctx.user == null) {
             li {
                 a(href = Paths.Login.INDEX) { +"Login" }

@@ -13,4 +13,7 @@ data class PagedCollection<out E>(
     val pageCount = max(ceil(total.toDouble() / limit.toDouble()).toInt(), 1)
     val currentPage = (offset / limit) + 1
 
+    companion object {
+        fun <E> empty() = PagedCollection(10, 0, 0, emptyList<E>())
+    }
 }

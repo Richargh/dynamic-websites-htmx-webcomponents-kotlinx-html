@@ -9,6 +9,6 @@ fun makeGreetingPage(ctx: PageContext) = generalPage(ctx) {
     h1 { +"Greeting" }
     p {
         attributes["data-testid"] = "message"
-        +"Hello ${ctx.user?.userName ?: "Anonymous"}"
+        +"Hello ${ctx.user?.userName?.rawValue ?: "Anonymous"}"
     }
 }

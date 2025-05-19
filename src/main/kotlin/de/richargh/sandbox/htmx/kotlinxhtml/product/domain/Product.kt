@@ -4,7 +4,7 @@ import de.richargh.sandbox.htmx.kotlinxhtml.commons.money.domain.Euro
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.repo.domain.Entity
 import java.security.InvalidParameterException
 
-data class Product(override val id: ProductId, val name: String, val price: Euro, val stock: Int): Entity<ProductId> {
+data class Product(override val id: ProductId, val name: String, val price: Euro): Entity<ProductId> {
 
     override fun matchesQuery(query: String): Boolean {
         return name.contains(query, ignoreCase = true)
@@ -17,8 +17,7 @@ data class Product(override val id: ProductId, val name: String, val price: Euro
         return Product(
                 id,
                 putProduct.name,
-                putProduct.price,
-                stock
+                putProduct.price
         )
     }
 
@@ -27,8 +26,7 @@ data class Product(override val id: ProductId, val name: String, val price: Euro
             return Product(
                     putProduct.id,
                     putProduct.name,
-                    putProduct.price,
-                    0
+                    putProduct.price
             )
         }
     }

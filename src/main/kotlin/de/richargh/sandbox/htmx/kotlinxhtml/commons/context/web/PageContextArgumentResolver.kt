@@ -31,7 +31,7 @@ class PageContextArgumentResolver : HandlerMethodArgumentResolver {
     }
 
     private fun userCtx(userDetails: UserDetails?, csrfToken: CsrfToken) = PageContext(
-        userDetails?.let { PageUser(it.username) },
+        userDetails?.let { PageUser(UserName(it.username)) },
         CsrfFormToken(csrfToken.token)
     )
 

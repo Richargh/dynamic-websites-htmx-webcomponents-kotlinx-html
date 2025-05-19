@@ -6,5 +6,7 @@ data class PageContext(
 )
 
 data class PageUser(
-        val userName: String
+        val userName: UserName
 )
+
+data class UserName(val rawValue: String)

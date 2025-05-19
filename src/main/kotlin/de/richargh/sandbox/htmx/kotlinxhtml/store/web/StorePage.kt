@@ -1,66 +1,75 @@
-package de.richargh.sandbox.htmx.kotlinxhtml.product.web
+package de.richargh.sandbox.htmx.kotlinxhtml.store.web
 
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.collections.domain.PagedCollection
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.fragments.web.generalPage
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
-import de.richargh.sandbox.htmx.kotlinxhtml.product.domain.Product
+import de.richargh.sandbox.htmx.kotlinxhtml.store.domain.Item
 import kotlinx.html.*
 
-fun productsPage(ctx: PageContext, products: PagedCollection<Product>) = generalPage(ctx) {
-    h1 { +"Products" }
+fun storePage(ctx: PageContext, items: PagedCollection<Item>) = generalPage(ctx) {
+    h1 { +"Store" }
 
-    div(classes = "grid") {
-        a(href = Paths.Products.ADD) { button { +"Add Product" } }
-        productsSearch()
-    }
-    productsTable(products)
-    productsPagination(products)
+    storeSearch()
+    storeTable(ctx, items)
+    storePagination(items)
 }
 
 @HtmlTagMarker
-fun FlowContent.productsSearch() = input {
+fun FlowContent.storeSearch() = input {
     type = InputType.search
     name = "q"
-    placeholder = "Begin Typing To Search Products..."
+    placeholder = "Begin Typing To Search the Store..."
 
     attributes["hx-get"] = Paths.Products.SEARCH
     attributes["hx-trigger"] = "keyup changed delay:500ms, search"
     attributes["hx-target"] = "#$productsTableBodyId"
 }
 
-fun FlowContent.productsTable(products: Collection<Product>) = table {
-    attributes["data-testid"] = "products-table"
+fun FlowContent.storeTable(ctx: PageContext, items: Collection<Item>) = table {
+    attributes["data-testid"] = "store-table"
     thead {
         tr {
             th { +"Name" }
             th { +"Price" }
+            th { +"Stock" }
             th { }
         }
     }
-    productsTableBody(products)
+    storeTableBody(ctx, items)
 }
 
 private const val productsTableBodyId = "search-results"
 
-fun TABLE.productsTableBody(products: Collection<Product>) = tbody {
+fun TABLE.storeTableBody(ctx: PageContext, items: Collection<Item>) = tbody {
     id = productsTableBodyId
-    products.forEach {
+    items.forEach {
         tr {
-            td { +it.name }
-            td { +it.price.toString() }
-            td { a(href = Paths.Products.edit(it.id)) { +"Edit" } }
+            td { +it.product.name }
+            td { +it.product.price.toString() }
+            td { +it.stock.toString() }
+            td {
+                form {
+                    action = Paths.Basket.add(it.id)
+                    method = FormMethod.post
+                    button(type = ButtonType.submit, classes = "secondary") {
+                        value = "AddToBasket"
+                        +"Add to Basket"
+                    }
+                    input(type = InputType.hidden, name = "_csrf") { value = ctx.csrfToken!!.rawValue }
+                }
+            }
         }
     }
 }
 
-fun MAIN.productsPagination(products: PagedCollection<Product>) = div(classes = "pagination") {
+fun MAIN.storePagination(items: PagedCollection<Item>) = div(classes = "pagination") {
     button(classes = "pagination-arrow disabled") {
         a {
             +"<"
         }
     }
-    (1..products.pageCount).forEach {
+    (1..items.pageCount).forEach {
         when (it) {
             1 -> button(classes = "pagination-item active") {
             a {
@@ -81,7 +90,7 @@ fun MAIN.productsPagination(products: PagedCollection<Product>) = div(classes = 
     }
     button(classes = "pagination-item") {
     //            a {
-        +(products.pageCount - 1).toString()
+        +(items.pageCount - 1).toString()
     //            }
     }
     button(classes = "pagination-arrow disabled") {
