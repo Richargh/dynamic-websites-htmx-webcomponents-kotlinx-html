@@ -19,6 +19,7 @@ fun main(args: Array<String>) {
 			loginConfig()
 			greetingConfig()
 			productConfig()
+			demoConfig()
 		})
 	}
 }

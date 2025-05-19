@@ -27,7 +27,6 @@ fun FlowContent.productsSearch() = input {
     attributes["hx-get"] = Paths.Products.SEARCH
     attributes["hx-trigger"] = "keyup changed delay:500ms, search"
     attributes["hx-target"] = "#$productsTableBodyId"
-    attributes["hx-indicator"] = ".htmx-indicator"
 }
 
 fun FlowContent.productsTable(products: Collection<Product>) = table {
