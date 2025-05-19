@@ -1,10 +1,9 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.commons.money.domain
 
-
-@JvmRecord
-data class Euro(val rawCents: Int) {
+@JvmInline
+value class Euro(val rawCents: Int) {
     override fun toString(): String {
-        return (rawCents / 100).toString() + "." + rawCents % 100 + " €"
+        return (rawCents / 100).toString() + "," + rawCents % 100
     }
 
     companion object {
