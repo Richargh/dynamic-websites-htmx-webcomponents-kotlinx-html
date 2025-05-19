@@ -10,10 +10,7 @@ class ProductsFacade {
     private val allProducts = ConcurrentHashMap<ProductId, Product>()
 
     init {
-        sequenceOf(
-                Product(ProductId.unique(), "Cup", Euro.ofEuros(1), 1),
-                Product(ProductId.unique(), "Bottle", Euro.ofEuros(10), 2)
-        )
+        demoData
                 .associateByTo(allProducts, Product::id)
     }
 
@@ -47,3 +44,17 @@ class ProductsFacade {
     }
 }
 
+private val demoData = sequenceOf(
+    Product(ProductId.unique(), "Cup", Euro.ofEuros(1), 1),
+    Product(ProductId.unique(), "Car", Euro.ofEuros(20_000), 2),
+    Product(ProductId.unique(), "Mac", Euro.ofEuros(2_000), 3),
+    Product(ProductId.unique(), "Tractor", Euro.ofEuros(100_000), 4),
+    Product(ProductId.unique(), "Desk", Euro.ofEuros(500), 5),
+    Product(ProductId.unique(), "Flask", Euro.ofEuros(2), 6),
+    Product(ProductId.unique(), "Screen", Euro.ofEuros(600), 7),
+    Product(ProductId.unique(), "USB-C Cable", Euro.ofEuros(50), 8),
+    Product(ProductId.unique(), "USB-A Cable", Euro.ofEuros(5), 9),
+    Product(ProductId.unique(), "Phone", Euro.ofEuros(1_200), 10),
+) + generateSequence(1) { it + 1 }.take(1000).map {
+    Product(ProductId.unique(), "Bottle worth $it EUR", Euro.ofEuros(it), 1000/it)
+}
