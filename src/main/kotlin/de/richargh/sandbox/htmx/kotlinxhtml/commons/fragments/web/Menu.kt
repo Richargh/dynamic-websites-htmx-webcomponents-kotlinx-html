@@ -5,8 +5,15 @@ import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
 import kotlinx.html.*
 
 @HtmlTagMarker
-fun HEADER.menu(ctx: PageContext) = nav {
+fun FlowContent.menu(ctx: PageContext) = nav {
     attributes["hx-boost"] = "true"
+    ul {
+        li {
+            strong {
+                +"Dynamic Web with Htmx"
+            }
+        }
+    }
     ul {
         li {
             a(href = Paths.Greeting.INDEX) { +"Greeting" }
@@ -14,19 +21,37 @@ fun HEADER.menu(ctx: PageContext) = nav {
         li {
             a(href = Paths.Products.INDEX) { +"Products" }
         }
-        if(ctx.user == null) {
+        if (ctx.user == null) {
             li {
                 a(href = Paths.Login.INDEX) { +"Login" }
             }
         } else {
-            form {
-                action = Paths.Logout.INDEX
-                method = FormMethod.post
-                button(type = ButtonType.submit) {
-                    value = "Logout"
-                    +"Logout ${ctx.user.userName}"
+            li {
+                details(classes = "dropdown"){
+                    summary {
+                        +"Account"
+                    }
+                    ul {
+                        attributes["dir"] = "rtl"
+                        li {
+                            a {
+                                +"Profile"
+                            }
+                        }
+                        li {
+                            form {
+                                action = Paths.Logout.INDEX
+                                method = FormMethod.post
+                                button(type = ButtonType.submit, classes = "secondary") {
+                                    value = "Logout"
+                                    +"Logout ${ctx.user.userName}"
+                                }
+                                input(type = InputType.hidden, name = "_csrf") { value = ctx.csrfToken!!.rawValue }
+                            }
+                        }
+                    }
                 }
-                input(type = InputType.hidden, name = "_csrf") { value = ctx.csrfToken!!.rawValue }
+
             }
         }
     }

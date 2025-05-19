@@ -4,15 +4,15 @@
   "description": "",
   "private": true,
   "scripts": {
-    "dist": "npm run dist:htmx && npm run dist:simplecss",
+    "dist": "npm run dist:htmx && npm run dist:picocss",
     "dist:htmx": "cp node_modules/htmx.org/dist/htmx.min.js ../src/main/resources/public/htmx.min.js",
-    "dist:simplecss": "cp node_modules/simpledotcss/simple.min.css ../src/main/resources/public/simple.min.css"
+    "dist:picocss": "cp node_modules/@picocss/pico/css/pico.min.css ../src/main/resources/public/pico.min.css"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "htmx.org": "^1.9.6",
-    "simpledotcss": "^2.2.1"
+    "@picocss/pico": "2.1.1",
+    "htmx.org": "2.0.4"
   }
 }

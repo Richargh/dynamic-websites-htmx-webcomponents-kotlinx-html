@@ -12,21 +12,26 @@ fun generalPage(ctx: PageContext, content: MAIN.() -> Unit): String {
                 meta { name = "viewport"; this.content = "width=device-width, initial-scale=1" }
                 title { +"Htmx Demo" }
                 title { +"Htmx Demo" }
-                link(href = "/public/simple.min.css", "stylesheet")
+                link(href = "/public/pico.min.css", "stylesheet")
+                link(href = "/public/pagination.css", "stylesheet")
                 script(type = "text/javascript", src = "/public/htmx.min.js") {
                     defer = true
                 }
             }
             body {
-                header {
-                    menu(ctx)
+                header(classes = "is-fixed-above-lg is-fixed") {
+                    div(classes = "container"){
+                        menu(ctx)
+                    }
                 }
-                main {
+                main(classes = "container") {
                     content()
                 }
                 footer {
-                    p {
-                        +"Sandbox Website"
+                    div(classes = "container"){
+                        p {
+                            +"Sandbox Website"
+                        }
                     }
                 }
             }
