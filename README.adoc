@@ -1,0 +1,39 @@
+= Dynamic Websites with Htmx + WebComponents + Kotlinx.Html
+
+
+
+== Features
+
+* Htmx
+** link:https://htmx.org/attributes/hx-boost/[HxBoost] for Tabs
+** link:https://htmx.org/examples/active-search/[ActiveSearch] for products table
+* Kotlinx.Html
+* Spring Boot
+** Spring Validation
+** Spring Security
+** Spring Security Test
+** Custom Argument Resolver
+
+== Preconditions
+
+* Install the java version from link:.sdkmanrc[] via link:https://sdkman.io/[SdkMan] by calling `sdk env`
+* Install the node version from link:assets/.nvmrc[] via link:https://github.com/Schniz/fnm[fnm] (or link:https://github.com/nvm-sh/nvm[nvm]]) by calling `fnm use`
+
+== Usage
+
+* Build and move .js files to src/main/resources/public via `cd assets && npm ci && npm run dist`
+* Run server via `./gradlew bootRun` and open link:http://localhost:8080[localhost:8080].
+* Run tests via `./gradlew test`
+
+== LiveReload / Restart
+
+LiveReload is great for fast iteration. It'll restart spring and refresh your browser window for changes.
+
+To use it:
+
+. Make sure you have the link:https://github.com/livereload/livereload-extensions[LiveReload extension] installed in Firefox/Chrome
+. In one Terminal start Gradle Continuous Build `./gradlew build -continuous`
+. In another Terminal or via IntelliJ run your application via `./gradlew bootRun`
+. Open the site in your browser
+. If the LiveReload Extension symbol in your browser shows "connected", then your browser will refresh on changes
+
