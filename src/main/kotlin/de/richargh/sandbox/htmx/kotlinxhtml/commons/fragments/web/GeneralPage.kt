@@ -12,6 +12,11 @@ fun generalPage(ctx: PageContext, content: MAIN.() -> Unit): String {
                 meta { name = "viewport"; this.content = "width=device-width, initial-scale=1" }
                 title { +"Htmx Demo" }
                 title { +"Htmx Demo" }
+                script(type = "importmap") {
+                    unsafe {
+                        raw(ctx.services.mapper.writeValueAsString(importMap))
+                    }
+                }
                 link(href = "/public/pico.min.css", "stylesheet")
                 link(href = "/public/pagination.css", "stylesheet")
                 script(type = "text/javascript", src = "/public/htmx.min.js") {
@@ -38,3 +43,7 @@ fun generalPage(ctx: PageContext, content: MAIN.() -> Unit): String {
         }
     }
 }
+
+private val importMap = mapOf(
+    "htmx" to "/public/htmx.min.js",
+)

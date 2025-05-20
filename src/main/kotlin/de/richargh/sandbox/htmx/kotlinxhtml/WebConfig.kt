@@ -1,5 +1,6 @@
 package de.richargh.sandbox.htmx.kotlinxhtml
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContextArgumentResolver
 import de.richargh.sandbox.htmx.kotlinxhtml.store.domain.StoreFacade
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,6 +18,8 @@ open class WebConfig : WebMvcConfigurer {
     @Autowired
     private lateinit var storeFacade: StoreFacade
 
+    @Autowired
+    private lateinit var mapper: ObjectMapper
 
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
         registry
@@ -25,7 +28,7 @@ open class WebConfig : WebMvcConfigurer {
     }
 
     override fun addArgumentResolvers(argumentResolvers: MutableList<HandlerMethodArgumentResolver>) {
-        argumentResolvers.add(PageContextArgumentResolver(storeFacade))
+        argumentResolvers.add(PageContextArgumentResolver(storeFacade, mapper))
     }
 
 }

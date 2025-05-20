@@ -1,5 +1,6 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.richargh.sandbox.htmx.kotlinxhtml.store.domain.StoreFacade
 import org.springframework.core.MethodParameter
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -12,7 +13,10 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 
 
-class PageContextArgumentResolver(private val storeFacade: StoreFacade) : HandlerMethodArgumentResolver {
+class PageContextArgumentResolver(
+    private val storeFacade: StoreFacade,
+    private val mapper: ObjectMapper
+) : HandlerMethodArgumentResolver {
     override fun supportsParameter(methodParameter: MethodParameter): Boolean {
         return methodParameter.getParameterAnnotation(Context::class.java) != null
                 && methodParameter.parameterType == PageContext::class.java
@@ -40,7 +44,10 @@ class PageContextArgumentResolver(private val storeFacade: StoreFacade) : Handle
             PageUserData(
                 user?.userName?.let { storeFacade.countBasketItems(it) } ?: 0
             ),
-            CsrfFormToken(csrfToken.token)
+            CsrfFormToken(csrfToken.token),
+            PageContextServices(
+                mapper
+            )
         )
     }
 
