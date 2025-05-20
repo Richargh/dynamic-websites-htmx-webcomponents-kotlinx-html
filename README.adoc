@@ -1,5 +1,7 @@
 = Dynamic Websites with Htmx + WebComponents + Kotlinx.Html
 
+This is the demo code for the talk on "Dynamic Websites with Htmx, WebComponents, and Kotlinx."
+
 == Features
 
 * Htmx
