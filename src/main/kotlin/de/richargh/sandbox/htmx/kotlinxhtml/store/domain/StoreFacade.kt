@@ -26,6 +26,10 @@ class StoreFacade(
         return basket.all(userName).size
     }
 
+    fun basketItemById(userName: UserName, basketItemId: BasketItemId): BasketItem? {
+        return basket[userName, basketItemId]
+    }
+
     fun addToBasket(userName: UserName, productId: ProductId){
         val item = stock[productId]
             ?: throw IllegalArgumentException("Item $productId does not exist or ist not in Stock")

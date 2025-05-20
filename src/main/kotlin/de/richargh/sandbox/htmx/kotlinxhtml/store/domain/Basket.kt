@@ -9,6 +9,8 @@ interface Basket {
     fun all(
         userName: UserName, limit: Int = 10, offset: Int = 0): PagedCollection<BasketItem>
 
+    operator fun get(userName: UserName, basketItemId: BasketItemId): BasketItem?
+
     fun add(userName: UserName, product: Product)
     fun remove(userName: UserName, basketItemId: BasketItemId)
 }

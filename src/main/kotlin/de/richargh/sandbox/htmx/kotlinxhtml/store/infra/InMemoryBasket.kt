@@ -34,6 +34,10 @@ class InMemoryBasket: Basket {
         return PagedCollection(limit, offset, total, collection)
     }
 
+    override fun get(userName: UserName, basketItemId: BasketItemId): BasketItem? {
+        return productsInBasketOfUser[userName]?.get(basketItemId)
+    }
+
     override fun add(
         userName: UserName,
         product: Product

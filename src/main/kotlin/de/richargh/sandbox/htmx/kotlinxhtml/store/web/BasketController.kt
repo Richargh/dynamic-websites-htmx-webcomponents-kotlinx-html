@@ -56,9 +56,14 @@ class BasketController(
     fun removeFromBasket(
         @Context ctx: PageContext,
         @PathVariable("id") rawBasketItemId: String): ResponseEntity<String> {
+        val basketItemId = BasketItemId(rawBasketItemId)
         // TODO user should always exist because we require a login
-        storeFacade.removeFromBasket(ctx.user!!.userName, BasketItemId(rawBasketItemId))
-        return return redirect(Paths.Basket.INDEX)
+        // TODO error handling when item not in basket
+        val item = storeFacade.basketItemById(ctx.user!!.userName, basketItemId)!!
+        storeFacade.removeFromBasket(ctx.user.userName, basketItemId)
+        return fragmentOfTbody("HX-Trigger-After-Swap" to Paths.Store.Events.BASKET_CHANGED) {
+
+        }
     }
 
 }

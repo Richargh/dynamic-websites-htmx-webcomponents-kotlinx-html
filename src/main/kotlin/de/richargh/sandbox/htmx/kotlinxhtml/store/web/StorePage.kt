@@ -76,6 +76,7 @@ fun TBODY.storeTableRow(ctx: PageContext, item: Item) = tr {
     }
 }
 
+// TODO: Pagination not adapted to how much is displayed
 fun MAIN.storePagination(items: PagedCollection<Item>) = div(classes = "pagination") {
     button(classes = "pagination-arrow disabled") {
         a {
