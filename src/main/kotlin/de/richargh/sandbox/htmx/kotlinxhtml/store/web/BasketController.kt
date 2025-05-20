@@ -2,10 +2,12 @@ package de.richargh.sandbox.htmx.kotlinxhtml.store.web
 
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.Context
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.fragment
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.html
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.fragmentOfMain
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.fragmentOfTbody
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.redirect
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
-import de.richargh.sandbox.htmx.kotlinxhtml.product.domain.Product
 import de.richargh.sandbox.htmx.kotlinxhtml.product.domain.ProductId
 import de.richargh.sandbox.htmx.kotlinxhtml.store.domain.BasketItemId
 import de.richargh.sandbox.htmx.kotlinxhtml.store.domain.StoreFacade
@@ -27,13 +29,27 @@ class BasketController(
         return html(basketPage(ctx, storeFacade.allBasketItems(ctx.user!!.userName)))
     }
 
+    @GetMapping(Paths.Basket.COUNT)
+    fun getBasketCountFragment(
+        @Context ctx: PageContext,): ResponseEntity<String> {
+        return fragmentOfMain {
+            basketCountFragment(ctx.userData.basketCount)
+        }
+    }
+
     @PostMapping(Paths.Basket.ADD)
     fun addToBasket(
         @Context ctx: PageContext,
         @PathVariable("id") rawProductId: String): ResponseEntity<String> {
+        val productId = ProductId(rawProductId)
         // TODO user should always exist because we require a login
-        storeFacade.addToBasket(ctx.user!!.userName, ProductId(rawProductId))
-        return return redirect(Paths.Store.INDEX)
+        storeFacade.addToBasket(ctx.user!!.userName, productId)
+        // TODO error handling when item missing
+        val item = storeFacade.storeItemById(productId)!!
+
+        return return fragmentOfTbody("HX-Trigger-After-Swap" to Paths.Store.Events.BASKET_CHANGED) {
+            storeTableRow(ctx, item)
+        }
     }
 
     @PostMapping(Paths.Basket.REMOVE)

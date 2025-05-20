@@ -1,5 +1,6 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web
 
+import de.richargh.sandbox.htmx.kotlinxhtml.store.domain.StoreFacade
 import org.springframework.core.MethodParameter
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.userdetails.UserDetails
@@ -11,7 +12,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 
 
-class PageContextArgumentResolver : HandlerMethodArgumentResolver {
+class PageContextArgumentResolver(private val storeFacade: StoreFacade) : HandlerMethodArgumentResolver {
     override fun supportsParameter(methodParameter: MethodParameter): Boolean {
         return methodParameter.getParameterAnnotation(Context::class.java) != null
                 && methodParameter.parameterType == PageContext::class.java
@@ -24,15 +25,23 @@ class PageContextArgumentResolver : HandlerMethodArgumentResolver {
         binderFactory: WebDataBinderFactory?
     ): PageContext {
         val token = webRequest.getAttribute(
-            CsrfToken::class.java.getName(), RequestAttributes.SCOPE_REQUEST) as CsrfToken
+            CsrfToken::class.java.getName(), RequestAttributes.SCOPE_REQUEST
+        ) as CsrfToken
         val principal = webRequest.userPrincipal as? UsernamePasswordAuthenticationToken
         val user = principal?.principal as? UserDetails
         return userCtx(user, token)
     }
 
-    private fun userCtx(userDetails: UserDetails?, csrfToken: CsrfToken) = PageContext(
-        userDetails?.let { PageUser(UserName(it.username)) },
-        CsrfFormToken(csrfToken.token)
-    )
+    private fun userCtx(userDetails: UserDetails?, csrfToken: CsrfToken): PageContext {
+        val user = userDetails?.let { PageUser(UserName(it.username)) }
+
+        return PageContext(
+            user,
+            PageUserData(
+                user?.userName?.let { storeFacade.countBasketItems(it) } ?: 0
+            ),
+            CsrfFormToken(csrfToken.token)
+        )
+    }
 
 }

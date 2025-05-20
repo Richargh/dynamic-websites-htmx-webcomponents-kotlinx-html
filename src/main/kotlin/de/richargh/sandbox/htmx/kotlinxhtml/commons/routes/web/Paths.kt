@@ -25,12 +25,17 @@ object Paths {
     }
 
     object Store {
-        const val INDEX = "/store"
+        private const val name = "store"
+        const val INDEX = "/$name"
         const val SEARCH = "$INDEX/search"
+        object Events {
+            const val BASKET_CHANGED = "$name-basket-changed"
+        }
     }
 
     object Basket {
         const val INDEX = "/basket"
+        const val COUNT = "/basket/count"
         const val ADD = "$INDEX/{id}/add"
         fun add(id: ProductId) = "$INDEX/${id.rawValue}/add"
         const val REMOVE = "$INDEX/{id}/remove"

@@ -14,13 +14,25 @@ class StoreFacade(
         return stock.byQuery(query, limit, offset)
     }
 
+    fun storeItemById(productId: ProductId): Item? {
+        return stock[productId]
+    }
+
     fun allBasketItems(userName: UserName): PagedCollection<BasketItem> {
         return basket.all(userName)
+    }
+
+    fun countBasketItems(userName: UserName): Int {
+        return basket.all(userName).size
     }
 
     fun addToBasket(userName: UserName, productId: ProductId){
         val item = stock[productId]
             ?: throw IllegalArgumentException("Item $productId does not exist or ist not in Stock")
+        if(item.stock == 0)
+            throw IllegalArgumentException("Item $productId has 0 stock and cannot be added to basket")
+
+        stock[productId] = item.copy(stock = item.stock - 1)
         basket.add(userName, item.product)
     }
 

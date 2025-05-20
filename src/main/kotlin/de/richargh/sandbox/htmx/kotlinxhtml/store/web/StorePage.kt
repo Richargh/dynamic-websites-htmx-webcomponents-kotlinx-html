@@ -44,20 +44,33 @@ private const val productsTableBodyId = "search-results"
 fun TABLE.storeTableBody(ctx: PageContext, items: Collection<Item>) = tbody {
     id = productsTableBodyId
     items.forEach {
-        tr {
-            td { +it.product.name }
-            td { +it.product.price.toString() }
-            td { +it.stock.toString() }
-            td {
-                form {
-                    action = Paths.Basket.add(it.id)
-                    method = FormMethod.post
-                    button(type = ButtonType.submit, classes = "secondary") {
-                        value = "AddToBasket"
-                        +"Add to Basket"
-                    }
-                    input(type = InputType.hidden, name = "_csrf") { value = ctx.csrfToken!!.rawValue }
+        storeTableRow(ctx, it)
+    }
+}
+
+fun TBODY.storeTableRow(ctx: PageContext, item: Item) = tr {
+    val rowId = "store-item-${item.id}"
+    id = rowId
+    td { +item.product.name }
+    td { +item.product.price.toString() }
+    td { +item.stock.toString() }
+    td {
+        if (item.stock == 0) {
+            span {
+                +"Out of Stock"
+            }
+        } else {
+            form {
+                action = Paths.Basket.add(item.id)
+                method = FormMethod.post
+                button(type = ButtonType.submit, classes = "secondary") {
+                    value = "AddToBasket"
+                    attributes["hx-post"] = Paths.Basket.add(item.id)
+                    attributes["hx-target"] = "#$rowId"
+                    attributes["hx-swap"] = "outerHTML"
+                    +"Add to Basket"
                 }
+                input(type = InputType.hidden, name = "_csrf") { value = ctx.csrfToken!!.rawValue }
             }
         }
     }
@@ -72,10 +85,11 @@ fun MAIN.storePagination(items: PagedCollection<Item>) = div(classes = "paginati
     (1..items.pageCount).forEach {
         when (it) {
             1 -> button(classes = "pagination-item active") {
-            a {
-                +it.toString()
+                a {
+                    +it.toString()
+                }
             }
-            }
+
             in 2..5 -> button(classes = "pagination-item") {
 //            a {
                 +it.toString()
@@ -89,9 +103,9 @@ fun MAIN.storePagination(items: PagedCollection<Item>) = div(classes = "paginati
         //            }
     }
     button(classes = "pagination-item") {
-    //            a {
+        //            a {
         +(items.pageCount - 1).toString()
-    //            }
+        //            }
     }
     button(classes = "pagination-arrow disabled") {
         a {

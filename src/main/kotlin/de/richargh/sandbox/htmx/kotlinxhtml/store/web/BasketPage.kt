@@ -6,11 +6,20 @@ import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.fragments.web.generalPage
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
 import kotlinx.html.*
+import kotlinx.html.a
 
 fun basketPage(ctx: PageContext, items: PagedCollection<BasketItem>) = generalPage(ctx) {
     h1 { +"Basket" }
 
     basketTable(ctx, items)
+}
+
+fun FlowContent.basketCountFragment(basketCount: Int) = a(href = Paths.Basket.INDEX) {
+    attributes["hx-get"] = Paths.Basket.COUNT
+    attributes["hx-trigger"] = "${Paths.Store.Events.BASKET_CHANGED} from:body"
+    attributes["hx-swap"] = "outerHTML"
+
+    +"Basket ($basketCount)"
 }
 
 fun FlowContent.basketTable(ctx: PageContext, items: Collection<BasketItem>) = table {

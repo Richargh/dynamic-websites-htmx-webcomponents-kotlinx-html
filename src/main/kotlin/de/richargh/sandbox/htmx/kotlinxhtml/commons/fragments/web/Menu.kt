@@ -2,6 +2,7 @@ package de.richargh.sandbox.htmx.kotlinxhtml.commons.fragments.web
 
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
+import de.richargh.sandbox.htmx.kotlinxhtml.store.web.basketCountFragment
 import kotlinx.html.*
 
 @HtmlTagMarker
@@ -25,7 +26,7 @@ fun FlowContent.menu(ctx: PageContext) = nav {
             a(href = Paths.Store.INDEX) { +"Store" }
         }
         li {
-            a(href = Paths.Basket.INDEX) { +"Basket" }
+            basketCountFragment(ctx.userData.basketCount)
         }
         if (ctx.user == null) {
             li {
@@ -50,7 +51,7 @@ fun FlowContent.menu(ctx: PageContext) = nav {
                                 method = FormMethod.post
                                 button(type = ButtonType.submit, classes = "secondary") {
                                     value = "Logout"
-                                    +"Logout ${ctx.user.userName}"
+                                    +"Logout ${ctx.user.userName.rawValue}"
                                 }
                                 input(type = InputType.hidden, name = "_csrf") { value = ctx.csrfToken!!.rawValue }
                             }
