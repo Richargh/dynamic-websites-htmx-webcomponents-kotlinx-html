@@ -22,6 +22,9 @@ fun generalPage(ctx: PageContext, content: MAIN.() -> Unit): String {
                 script(type = "text/javascript", src = "/public/htmx.min.js") {
                     defer = true
                 }
+                script(type = "text/javascript", src = "/public/github-elements/relative-time.js") {
+                    defer = true
+                }
             }
             body {
                 header(classes = "is-fixed-above-lg is-fixed") {

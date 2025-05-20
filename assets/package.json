@@ -4,14 +4,16 @@
   "description": "",
   "private": true,
   "scripts": {
-    "dist": "npm run dist:htmx && npm run dist:picocss",
+    "dist": "npm run dist:htmx && npm run dist:picocss && npm run dist:relative-time",
     "dist:htmx": "cp node_modules/htmx.org/dist/htmx.min.js ../src/main/resources/public/htmx.min.js",
-    "dist:picocss": "cp node_modules/@picocss/pico/css/pico.min.css ../src/main/resources/public/pico.min.css"
+    "dist:picocss": "cp node_modules/@picocss/pico/css/pico.min.css ../src/main/resources/public/pico.min.css",
+    "dist:relative-time": "cp node_modules/@github/relative-time-element/dist/bundle.js ../src/main/resources/public/github-elements/relative-time.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@github/relative-time-element": "^4.4.8",
     "@picocss/pico": "2.1.1",
     "htmx.org": "2.0.4"
   }

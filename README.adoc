@@ -7,6 +7,8 @@ This is the demo code for the talk on "Dynamic Websites with Htmx, WebComponents
 * Htmx
 ** link:https://htmx.org/attributes/hx-boost/[HxBoost] for Tabs
 ** link:https://htmx.org/examples/active-search/[ActiveSearch] for products table
+* Web Components
+** Github's link:https://github.com/github/relative-time-element[Relative-Time Element]
 * Kotlinx.Html
 * Spring Boot
 ** Spring Validation

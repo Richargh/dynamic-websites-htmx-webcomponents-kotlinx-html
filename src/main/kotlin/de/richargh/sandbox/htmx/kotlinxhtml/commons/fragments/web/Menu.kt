@@ -2,8 +2,10 @@ package de.richargh.sandbox.htmx.kotlinxhtml.commons.fragments.web
 
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.widgets.web.relativeTime
 import de.richargh.sandbox.htmx.kotlinxhtml.store.web.basketCountFragment
 import kotlinx.html.*
+import java.time.ZonedDateTime
 
 @HtmlTagMarker
 fun FlowContent.menu(ctx: PageContext) = nav {
@@ -13,6 +15,10 @@ fun FlowContent.menu(ctx: PageContext) = nav {
             strong {
                 +"Dynamic Web with Htmx"
             }
+        }
+        li {
+            +"Last full replace: "
+            relativeTime(ZonedDateTime.now())
         }
     }
     ul {
