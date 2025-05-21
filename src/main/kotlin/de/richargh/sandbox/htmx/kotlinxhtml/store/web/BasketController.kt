@@ -1,12 +1,13 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.store.web
 
-import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.Context
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AnonContext
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AnonPageContext
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AuthContext
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AuthPageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
-import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.fragment
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.html
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.fragmentOfMain
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.fragmentOfTbody
-import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.redirect
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
 import de.richargh.sandbox.htmx.kotlinxhtml.product.domain.ProductId
 import de.richargh.sandbox.htmx.kotlinxhtml.store.domain.BasketItemId
@@ -24,26 +25,24 @@ class BasketController(
 
     @GetMapping(Paths.Basket.INDEX)
     fun getBasketPage(
-        @Context ctx: PageContext,): ResponseEntity<String> {
-        // TODO user should always exist because we require a login
-        return html(basketPage(ctx, storeFacade.allBasketItems(ctx.user!!.userName)))
+        @AuthContext ctx: AuthPageContext): ResponseEntity<String> {
+        return html(basketPage(ctx, storeFacade.allBasketItems(ctx.user.userName)))
     }
 
     @GetMapping(Paths.Basket.COUNT)
     fun getBasketCountFragment(
-        @Context ctx: PageContext,): ResponseEntity<String> {
+        @AnonContext ctx: AnonPageContext): ResponseEntity<String> {
         return fragmentOfMain {
-            basketCountFragment(ctx.userData.basketCount)
+            basketCountFragment(ctx.userData?.basketCount ?: 0)
         }
     }
 
     @PostMapping(Paths.Basket.ADD)
     fun addToBasket(
-        @Context ctx: PageContext,
+        @AuthContext ctx: AuthPageContext,
         @PathVariable("id") rawProductId: String): ResponseEntity<String> {
         val productId = ProductId(rawProductId)
-        // TODO user should always exist because we require a login
-        storeFacade.addToBasket(ctx.user!!.userName, productId)
+        storeFacade.addToBasket(ctx.user.userName, productId)
         // TODO error handling when item missing
         val item = storeFacade.storeItemById(productId)!!
 
@@ -54,12 +53,9 @@ class BasketController(
 
     @PostMapping(Paths.Basket.REMOVE)
     fun removeFromBasket(
-        @Context ctx: PageContext,
+        @AuthContext ctx: AuthPageContext,
         @PathVariable("id") rawBasketItemId: String): ResponseEntity<String> {
         val basketItemId = BasketItemId(rawBasketItemId)
-        // TODO user should always exist because we require a login
-        // TODO error handling when item not in basket
-        val item = storeFacade.basketItemById(ctx.user!!.userName, basketItemId)!!
         storeFacade.removeFromBasket(ctx.user.userName, basketItemId)
         return fragmentOfTbody("HX-Trigger-After-Swap" to Paths.Store.Events.BASKET_CHANGED) {
 

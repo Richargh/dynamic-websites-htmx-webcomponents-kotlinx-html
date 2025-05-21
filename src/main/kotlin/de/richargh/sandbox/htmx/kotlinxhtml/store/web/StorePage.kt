@@ -1,13 +1,14 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.store.web
 
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.collections.domain.PagedCollection
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AuthPageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.fragments.web.generalPage
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
 import de.richargh.sandbox.htmx.kotlinxhtml.store.domain.Item
 import kotlinx.html.*
 
-fun storePage(ctx: PageContext, items: PagedCollection<Item>) = generalPage(ctx) {
+fun storePage(ctx: AuthPageContext, items: PagedCollection<Item>) = generalPage(ctx) {
     h1 { +"Store" }
 
     storeSearch()
@@ -26,7 +27,7 @@ fun FlowContent.storeSearch() = input {
     attributes["hx-target"] = "#$productsTableBodyId"
 }
 
-fun FlowContent.storeTable(ctx: PageContext, items: Collection<Item>) = table {
+fun FlowContent.storeTable(ctx: AuthPageContext, items: Collection<Item>) = table {
     attributes["data-testid"] = "store-table"
     thead {
         tr {
@@ -41,14 +42,14 @@ fun FlowContent.storeTable(ctx: PageContext, items: Collection<Item>) = table {
 
 private const val productsTableBodyId = "search-results"
 
-fun TABLE.storeTableBody(ctx: PageContext, items: Collection<Item>) = tbody {
+fun TABLE.storeTableBody(ctx: AuthPageContext, items: Collection<Item>) = tbody {
     id = productsTableBodyId
     items.forEach {
         storeTableRow(ctx, it)
     }
 }
 
-fun TBODY.storeTableRow(ctx: PageContext, item: Item) = tr {
+fun TBODY.storeTableRow(ctx: AuthPageContext, item: Item) = tr {
     val rowId = "store-item-${item.id}"
     id = rowId
     td { +item.product.name }

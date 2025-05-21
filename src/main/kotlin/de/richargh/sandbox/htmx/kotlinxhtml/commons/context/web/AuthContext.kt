@@ -1,3 +1,5 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web
 
-annotation class Context
+annotation class AuthContext
+
+annotation class AnonContext

@@ -1,6 +1,7 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.store.web
 
-import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.Context
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AuthContext
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AuthPageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.fragment
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
@@ -21,7 +22,7 @@ class StoreController(
 
     @GetMapping(Paths.Store.INDEX)
     fun getStorePage(
-        @Context ctx: PageContext,): ResponseEntity<String> {
+        @AuthContext ctx: AuthPageContext): ResponseEntity<String> {
         return html(storePage(ctx, storeFacade.queryStoreItems("")))
     }
 
@@ -29,7 +30,7 @@ class StoreController(
     @GetMapping(Paths.Store.SEARCH)
     fun getSearchStoreFragment(
         @RequestParam q: String,
-        @Context ctx: PageContext): ResponseEntity<String> {
+        @AuthContext ctx: AuthPageContext): ResponseEntity<String> {
         val products = storeFacade.queryStoreItems(q)
 
         return fragment(buildString {

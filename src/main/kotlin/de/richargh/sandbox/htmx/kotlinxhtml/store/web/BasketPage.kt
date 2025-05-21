@@ -1,13 +1,14 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.store.web
 
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.collections.domain.PagedCollection
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AuthPageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.fragments.web.generalPage
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
 import de.richargh.sandbox.htmx.kotlinxhtml.store.domain.BasketItem
 import kotlinx.html.*
 
-fun basketPage(ctx: PageContext, items: PagedCollection<BasketItem>) = generalPage(ctx) {
+fun basketPage(ctx: AuthPageContext, items: PagedCollection<BasketItem>) = generalPage(ctx) {
     h1 { +"Basket" }
 
     basketTable(ctx, items)
@@ -21,7 +22,7 @@ fun FlowContent.basketCountFragment(basketCount: Int) = a(href = Paths.Basket.IN
     +"Basket ($basketCount)"
 }
 
-fun FlowContent.basketTable(ctx: PageContext, items: Collection<BasketItem>) = table {
+fun FlowContent.basketTable(ctx: AuthPageContext, items: Collection<BasketItem>) = table {
     attributes["data-testid"] = "basket-table"
     thead {
         tr {
@@ -35,14 +36,14 @@ fun FlowContent.basketTable(ctx: PageContext, items: Collection<BasketItem>) = t
 
 private const val productsTableBodyId = "search-results"
 
-fun TABLE.basketTableBody(ctx: PageContext, items: Collection<BasketItem>) = tbody {
+fun TABLE.basketTableBody(ctx: AuthPageContext, items: Collection<BasketItem>) = tbody {
     id = productsTableBodyId
     items.forEach {
         basketTableRow(ctx, it)
     }
 }
 
-fun TBODY.basketTableRow(ctx: PageContext, item: BasketItem) = tr {
+fun TBODY.basketTableRow(ctx: AuthPageContext, item: BasketItem) = tr {
     val rowId = "basket-item-${item.id}"
     id = rowId
     td { +item.product.name }

@@ -1,7 +1,8 @@
 package de.richargh.sandbox.htmx.kotlinxhtml
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContextArgumentResolver
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AnonPageContextArgumentResolver
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AuthPageContextArgumentResolver
 import de.richargh.sandbox.htmx.kotlinxhtml.store.domain.StoreFacade
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
@@ -28,7 +29,8 @@ open class WebConfig : WebMvcConfigurer {
     }
 
     override fun addArgumentResolvers(argumentResolvers: MutableList<HandlerMethodArgumentResolver>) {
-        argumentResolvers.add(PageContextArgumentResolver(storeFacade, mapper))
+        argumentResolvers.add(AuthPageContextArgumentResolver(storeFacade, mapper))
+        argumentResolvers.add(AnonPageContextArgumentResolver(storeFacade, mapper))
     }
 
 }

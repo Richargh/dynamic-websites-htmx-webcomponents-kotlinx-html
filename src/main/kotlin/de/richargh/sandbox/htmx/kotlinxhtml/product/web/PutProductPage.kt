@@ -1,5 +1,6 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.product.web
 
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AuthPageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.fragments.web.generalPage
@@ -8,7 +9,7 @@ import kotlinx.html.FormMethod.*
 import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
 
-fun putProductPage(ctx: PageContext, product: ProductFormData, type: PutProductType, bindingResult: BindingResult? = null) = generalPage(ctx) {
+fun putProductPage(ctx: AuthPageContext, product: ProductFormData, type: PutProductType, bindingResult: BindingResult? = null) = generalPage(ctx) {
     h1 { +"$type Product" }
     putProductForm(ctx, product, type, bindingResult)
 }
@@ -19,7 +20,7 @@ enum class PutProductType {
 }
 
 @HtmlTagMarker
-fun MAIN.putProductForm(ctx: PageContext, product: ProductFormData, type: PutProductType, bindingResult: BindingResult?) = form {
+fun MAIN.putProductForm(ctx: AuthPageContext, product: ProductFormData, type: PutProductType, bindingResult: BindingResult?) = form {
     action = Paths.Products.INDEX
     method = post
     name = "productForm"

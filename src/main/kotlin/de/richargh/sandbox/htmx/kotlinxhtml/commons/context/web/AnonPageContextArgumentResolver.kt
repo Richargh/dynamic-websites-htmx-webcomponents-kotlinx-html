@@ -13,13 +13,13 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 
 
-class PageContextArgumentResolver(
+class AnonPageContextArgumentResolver(
     private val storeFacade: StoreFacade,
     private val mapper: ObjectMapper
 ) : HandlerMethodArgumentResolver {
     override fun supportsParameter(methodParameter: MethodParameter): Boolean {
-        return methodParameter.getParameterAnnotation(Context::class.java) != null
-                && methodParameter.parameterType == PageContext::class.java
+        return methodParameter.getParameterAnnotation(AnonContext::class.java) != null
+                && methodParameter.parameterType == AnonPageContext::class.java
     }
 
     override fun resolveArgument(
@@ -27,23 +27,22 @@ class PageContextArgumentResolver(
         mavContainer: ModelAndViewContainer?,
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
-    ): PageContext {
+    ): AnonPageContext {
         val token = webRequest.getAttribute(
             CsrfToken::class.java.getName(), RequestAttributes.SCOPE_REQUEST
         ) as CsrfToken
         val principal = webRequest.userPrincipal as? UsernamePasswordAuthenticationToken
         val user = principal?.principal as? UserDetails
-        return userCtx(user, token)
+        return anonCtx(user, token)
     }
 
-    private fun userCtx(userDetails: UserDetails?, csrfToken: CsrfToken): PageContext {
+    private fun anonCtx(userDetails: UserDetails?, csrfToken: CsrfToken): AnonPageContext {
         val user = userDetails?.let { PageUser(UserName(it.username)) }
+        val userData = user?.let { PageUserData(storeFacade.countBasketItems(it.userName)) }
 
-        return PageContext(
+        return AnonPageContext(
             user,
-            PageUserData(
-                user?.userName?.let { storeFacade.countBasketItems(it) } ?: 0
-            ),
+            userData,
             CsrfFormToken(csrfToken.token),
             PageContextServices(
                 mapper

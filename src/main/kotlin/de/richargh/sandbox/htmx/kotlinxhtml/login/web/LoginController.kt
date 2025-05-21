@@ -1,7 +1,7 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.login.web
 
-import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.Context
-import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AnonContext
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AnonPageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.html
 import org.springframework.http.ResponseEntity
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam
 class LoginController {
     @GetMapping(Paths.Login.INDEX)
     fun getLoginPage(
-        @Context ctx: PageContext,
+        @AnonContext ctx: AnonPageContext,
         @RequestParam error: String?,
         @RequestParam logout: String?,
         @RequestHeader("HX-Request") isHxRequest: Boolean = false,

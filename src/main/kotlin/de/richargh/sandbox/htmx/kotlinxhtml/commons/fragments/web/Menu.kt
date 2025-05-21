@@ -1,5 +1,7 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.commons.fragments.web
 
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AnonPageContext
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AuthPageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.widgets.web.relativeTime
@@ -32,15 +34,15 @@ fun FlowContent.menu(ctx: PageContext) = nav {
             a(href = Paths.Store.INDEX) { +"Store" }
         }
         li {
-            basketCountFragment(ctx.userData.basketCount)
+            basketCountFragment(ctx.userData?.basketCount ?: 0)
         }
-        if (ctx.user == null) {
-            li {
+        when(val user = ctx.user) {
+            null -> li {
                 a(href = Paths.Login.INDEX) { +"Login" }
             }
-        } else {
-            li {
-                details(classes = "dropdown"){
+
+            else -> li {
+                details(classes = "dropdown") {
                     summary {
                         +"Account"
                     }
@@ -57,7 +59,7 @@ fun FlowContent.menu(ctx: PageContext) = nav {
                                 method = FormMethod.post
                                 button(type = ButtonType.submit, classes = "secondary") {
                                     value = "Logout"
-                                    +"Logout ${ctx.user.userName.rawValue}"
+                                    +"Logout ${user.userName.rawValue}"
                                 }
                                 input(type = InputType.hidden, name = "_csrf") { value = ctx.csrfToken!!.rawValue }
                             }
