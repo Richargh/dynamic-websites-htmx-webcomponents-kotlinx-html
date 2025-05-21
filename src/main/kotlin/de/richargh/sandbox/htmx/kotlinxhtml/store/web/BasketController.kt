@@ -43,11 +43,12 @@ class BasketController(
         @PathVariable("id") rawProductId: String): ResponseEntity<String> {
         val productId = ProductId(rawProductId)
         storeFacade.addToBasket(ctx.user.userName, productId)
-        // TODO error handling when item missing
-        val item = storeFacade.storeItemById(productId)!!
+        val item = storeFacade.storeItemById(productId)
 
         return return fragmentOfTbody("HX-Trigger-After-Swap" to Paths.Store.Events.BASKET_CHANGED) {
-            storeTableRow(ctx, item)
+            if(item != null) {
+                storeTableRow(ctx, item)
+            }
         }
     }
 
