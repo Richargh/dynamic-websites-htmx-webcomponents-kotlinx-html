@@ -4,10 +4,9 @@ import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AnonContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AnonPageContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AuthContext
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.AuthPageContext
-import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
-import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.html
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.fragmentOfMain
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.fragmentOfTbody
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.response.web.html
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
 import de.richargh.sandbox.htmx.kotlinxhtml.product.domain.ProductId
 import de.richargh.sandbox.htmx.kotlinxhtml.store.domain.BasketItemId
