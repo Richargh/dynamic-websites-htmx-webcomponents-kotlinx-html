@@ -6,6 +6,8 @@ import de.richargh.sandbox.htmx.kotlinxhtml.product.domain.ProductId
 object Paths {
     object Greeting {
         const val INDEX = "/greeting"
+        const val OPEN_MODAL = "$INDEX/open"
+        const val SUBMIT_MODAL = "$INDEX/submit"
     }
 
     object Login {
@@ -40,5 +42,11 @@ object Paths {
         fun add(id: ProductId) = "$INDEX/${id.rawValue}/add"
         const val REMOVE = "$INDEX/{id}/remove"
         fun remove(id: BasketItemId) = "$INDEX/${id.rawValue}/remove"
+    }
+
+    object Widgets {
+        const val INDEX = "/dynamic/app/html-web-components"
+        const val GET_ONE = "$INDEX/{jsFileName}"
+        fun getOne(rawJsFilePath: String) = "${INDEX}/${rawJsFilePath}"
     }
 }

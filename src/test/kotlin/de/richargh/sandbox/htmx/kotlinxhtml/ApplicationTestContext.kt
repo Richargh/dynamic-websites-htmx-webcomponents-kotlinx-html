@@ -1,5 +1,6 @@
 package de.richargh.sandbox.htmx.kotlinxhtml
 
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.widgets.widgetConfig
 import de.richargh.sandbox.htmx.kotlinxhtml.greeting.greetingConfig
 import de.richargh.sandbox.htmx.kotlinxhtml.login.web.loginConfig
 import de.richargh.sandbox.htmx.kotlinxhtml.product.productConfig
@@ -16,6 +17,7 @@ class ApplicationTestContext : ApplicationContextInitializer<GenericApplicationC
             greetingConfig()
             productConfig()
             storeConfig()
+            widgetConfig()
         }.initialize(applicationContext)
     }
 

@@ -4,6 +4,7 @@ import de.richargh.sandbox.htmx.kotlinxhtml.greeting.greetingConfig
 import de.richargh.sandbox.htmx.kotlinxhtml.login.web.loginConfig
 import de.richargh.sandbox.htmx.kotlinxhtml.product.productConfig
 import de.richargh.sandbox.htmx.kotlinxhtml.store.storeConfig
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.widgets.widgetConfig
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
@@ -21,6 +22,8 @@ fun main(args: Array<String>) {
 			greetingConfig()
 			productConfig()
 			storeConfig()
+			widgetConfig()
+
 			demoConfig()
 		})
 	}

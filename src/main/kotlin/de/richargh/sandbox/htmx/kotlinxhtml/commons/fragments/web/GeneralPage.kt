@@ -1,6 +1,8 @@
 package de.richargh.sandbox.htmx.kotlinxhtml.commons.fragments.web
 
 import de.richargh.sandbox.htmx.kotlinxhtml.commons.context.web.PageContext
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.routes.web.Paths
+import de.richargh.sandbox.htmx.kotlinxhtml.commons.widgets.web.nativeModalFileName
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 
@@ -25,6 +27,9 @@ fun generalPage(ctx: PageContext, content: MAIN.() -> Unit): String {
                 script(type = "text/javascript", src = "/public/github-elements/relative-time.js") {
                     defer = true
                 }
+                script(type = "module", src = Paths.Widgets.getOne(nativeModalFileName)) {
+                    defer = true
+                }
             }
             body {
                 header(classes = "is-fixed-above-lg is-fixed") {
@@ -41,6 +46,9 @@ fun generalPage(ctx: PageContext, content: MAIN.() -> Unit): String {
                             +"Sandbox Website"
                         }
                     }
+                }
+                div {
+                    id = WebIds.CurrentModal.rawValue
                 }
             }
         }

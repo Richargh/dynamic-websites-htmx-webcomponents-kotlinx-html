@@ -15,6 +15,7 @@ This is the demo code for the talk on "Dynamic Websites with Htmx, WebComponents
 ** Spring Security
 ** Spring Security Test
 ** Custom Argument Resolver
+* IntelliJ link:https://www.jetbrains.com/help/idea/using-language-injections.html#language_annotation[Language Injections]
 
 == Preconditions
 

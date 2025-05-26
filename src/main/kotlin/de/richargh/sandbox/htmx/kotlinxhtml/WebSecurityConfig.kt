@@ -23,7 +23,7 @@ class WebSecurityConfig {
 //                .csrf { it.ignoringRequestMatchers("/*") }
                 .authorizeHttpRequests { requests ->
                     requests
-                            .requestMatchers("/", "/greeting", "/public/**").permitAll()
+                            .requestMatchers("/", "/greeting", "/public/**", "/dynamic/**").permitAll()
                             .anyRequest().authenticated()
                 }
                 .formLogin { form ->
